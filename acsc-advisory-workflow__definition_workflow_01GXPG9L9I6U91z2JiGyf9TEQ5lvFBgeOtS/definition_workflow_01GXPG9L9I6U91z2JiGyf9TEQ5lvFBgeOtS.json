@@ -7,9 +7,33 @@
     "base_type": "workflow",
     "variables": [
       {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "email_recipient",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01H5NDR871RTA4dDba4PVbzRrHGbUISS7nn",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "webex_team_room_id",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01H5OVJIZ8K8C5N0Ve7rS0GRJe7MggNdzjX",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.secure_string",
         "properties": {
-          "value": "*****",
+          "value": "",
           "scope": "input",
           "name": "webex_token",
           "type": "datatype.secure_string",
@@ -69,37 +93,13 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "actionorchestratortests@gmail.com",
+          "value": "",
           "scope": "input",
           "name": "email_sender",
           "type": "datatype.string",
           "is_required": true
         },
         "unique_name": "variable_workflow_01H5ND5JLMKOL1GGwNzv2yc4Epid2EXThUW",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "osanniko@cisco.com",
-          "scope": "input",
-          "name": "email_recipient",
-          "type": "datatype.string",
-          "is_required": true
-        },
-        "unique_name": "variable_workflow_01H5NDR871RTA4dDba4PVbzRrHGbUISS7nn",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "Y2lzY29zcGFyazovL3VzL1JPT00vYWIxZWRiYzAtYWE4NS0xMWVhLTllNjYtMWQyNWJiODAwMWZk",
-          "scope": "input",
-          "name": "webex_team_room_id",
-          "type": "datatype.string",
-          "is_required": true
-        },
-        "unique_name": "variable_workflow_01H5OVJIZ8K8C5N0Ve7rS0GRJe7MggNdzjX",
         "object_type": "variable_workflow"
       }
     ],
@@ -108,6 +108,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
+      "description": "The playbook steps:\n\n1.\tGet Indicators - Make a generic http request to ACSC hosted IOC csv file, do some clean up and store the indicators\n2.\tParse IOCs - from raw text using SecureX Threat Response Inspect API\n3.\tEnrich Observables - with SecureX Threat Response Enrich API to find any global sightings (in integrated threat feeds) and more importantly local sightings/targets (in integrated security modules like Umbrella, AMP, etc.)\n4.\tShare Targets - For each module queried, if any targets founds, post on webex teams and/or send an email.\n5.\tCase Management - Create a new casebook the first time any targets are found and on subsequent runs keep updating the casebook when targets found.\n",
       "display_name": "ACSC Advisory",
       "runtime_user": {
         "override_target_runtime_user": false,
@@ -1279,9 +1280,9 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS",
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
     "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
+    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
+    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r",
+    "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS"
   ]
 }
