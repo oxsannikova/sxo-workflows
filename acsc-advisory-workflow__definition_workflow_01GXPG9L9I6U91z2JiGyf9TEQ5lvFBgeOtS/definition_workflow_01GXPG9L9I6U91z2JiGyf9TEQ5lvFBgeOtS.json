@@ -7,6 +7,30 @@
     "base_type": "workflow",
     "variables": [
       {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "webex_token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01H5PBFZNRTRM1ITi4jKKFazkNjSetMigxU",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "indicators",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01GXQKHBW4AFW29niot1QVadlr4TZXMlo9n",
+        "object_type": "variable_workflow"
+      },
+      {
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
@@ -76,30 +100,6 @@
           "is_required": true
         },
         "unique_name": "variable_workflow_01H5OVJIZ8K8C5N0Ve7rS0GRJe7MggNdzjX",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.secure_string",
-        "properties": {
-          "value": "*****",
-          "scope": "input",
-          "name": "webex_token",
-          "type": "datatype.secure_string",
-          "is_required": true
-        },
-        "unique_name": "variable_workflow_01H5PBFZNRTRM1ITi4jKKFazkNjSetMigxU",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "indicators",
-          "type": "datatype.string",
-          "is_required": false
-        },
-        "unique_name": "variable_workflow_01GXQKHBW4AFW29niot1QVadlr4TZXMlo9n",
         "object_type": "variable_workflow"
       }
     ],
@@ -935,9 +935,9 @@
                 "base_type": "activity",
                 "properties": {
                   "condition": {
-                    "left_operand": "$activity.definition_activity_01H5PE7NR5Y3O6nsHpipvFlQ9Sg9RFDOoBp.output.status_code$",
+                    "left_operand": "$activity.definition_activity_01H5PE7NR5Y3O6nsHpipvFlQ9Sg9RFDOoBp.output.succeeded$",
                     "operator": "eq",
-                    "right_operand": 200
+                    "right_operand": true
                   },
                   "continue_on_failure": false,
                   "display_name": "Yes",
@@ -1040,9 +1040,9 @@
                 "base_type": "activity",
                 "properties": {
                   "condition": {
-                    "left_operand": "$activity.definition_activity_01H5PE7NR5Y3O6nsHpipvFlQ9Sg9RFDOoBp.output.status_code$",
+                    "left_operand": "$activity.definition_activity_01H5PE7NR5Y3O6nsHpipvFlQ9Sg9RFDOoBp.output.succeeded$",
                     "operator": "eq",
-                    "right_operand": 404
+                    "right_operand": "false"
                   },
                   "continue_on_failure": false,
                   "display_name": "No",
@@ -1269,7 +1269,7 @@
     "variable_01H5OJTIZW5CP2o27dFtWQ7Rw2m0l6FQDku": {
       "unique_name": "variable_01H5OJTIZW5CP2o27dFtWQ7Rw2m0l6FQDku",
       "properties": {
-        "value": "casebook",
+        "value": "casebook-41e17a98-8a3e-40fb-b03c-954396a40d37",
         "scope": "global",
         "name": "casebook_id",
         "type": "datatype.string",
@@ -1279,9 +1279,9 @@
     }
   },
   "atomic_workflows": [
-    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
-    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
     "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS",
+    "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
+    "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
     "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
   ]
 }
