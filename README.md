@@ -1,10 +1,13 @@
 # sxo-acsc-advisory-workflow
 
-[Instructions](acsc_workflow.md)
+Full description of this project is covered in this [blog post](https://blogs.cisco.com/security/unleashing-securex).
+
+[Setup Instructions](acsc_workflow.md)
+
 
 # ios-xe-packet-capture
 
-To successfully inport this workflow you need to confirgure the following:
+To successfully inport this workflow you need to configure the following:
 1. Configure Webex Teams Bot and have the token ready to submit when asked during import.
 > You can also use your personal Webex Teams Token. Note that it expires every 12 hours.
 
