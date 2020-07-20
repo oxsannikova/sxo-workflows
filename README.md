@@ -9,7 +9,7 @@ This SecureX orchestration workflow is an automated way to help understand the i
 
 If you are not in Australia, don’t walk away just yet! The title ‘Copy-Paste Compromises’ is derived from the actor’s heavy use of proof of concept exploit code, web shells and other tools copied almost identically from open source. So you may see some of these in your environment even if you are not being specifically targeted by this campaign. Also you can replace the example above with any other malware/cyber campaign. Typically you will find blogs from Cisco (TALOS) or other vendors or community posts, detailing the TTPs and more importantly the IOCs. In other situations, you might receive IOCs over a threat feed or simply scrape them from a webpage/blog/post. Irrespective with minor tweaks the below process should still work for any of those sources as well.
 
-SecureX orchestrator enables you to create automated workflow that can be modified for any IOC source, including the TALOS Blog RSS Feed, however in this case we are going to use the ACSC provided [IOC csv file](https://www.cyber.gov.au/sites/default/files/2020-06/ACSC-Advisory-2020-008-Copy-Paste-Compromises-Indicators-of-Compromise.csv).
+SecureX orchestrator enables you to create automated workflow that can be modified for any IOC source, including the [TALOS Blog RSS Feed](https://blog.talosintelligence.com/), however in this case we are going to use the ACSC provided [IOC csv file](https://www.cyber.gov.au/sites/default/files/2020-06/ACSC-Advisory-2020-008-Copy-Paste-Compromises-Indicators-of-Compromise.csv).
 
 Workflow Block-scheme:
 
