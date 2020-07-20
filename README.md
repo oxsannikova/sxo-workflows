@@ -16,3 +16,5 @@ Workflow Block-scheme:
 ![](/assets/playbook_flow.png)
 
 [Workflow Setup Instructions](acsc_workflow.md)
+
+Copyright (c) 2020 Cisco Systems, Inc. and/or its affiliates.
