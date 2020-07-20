@@ -11,6 +11,18 @@
         "properties": {
           "value": "",
           "scope": "input",
+          "name": "email_sender",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01H5ND5JLMKOL1GGwNzv2yc4Epid2EXThUW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
           "name": "email_recipient",
           "type": "datatype.string",
           "is_required": true
@@ -88,18 +100,6 @@
           "is_required": false
         },
         "unique_name": "variable_workflow_01H2NYQFHSL1I4P7S3blZGh0sduKYT9XDMd",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "input",
-          "name": "email_sender",
-          "type": "datatype.string",
-          "is_required": true
-        },
-        "unique_name": "variable_workflow_01H5ND5JLMKOL1GGwNzv2yc4Epid2EXThUW",
         "object_type": "variable_workflow"
       }
     ],
@@ -296,14 +296,14 @@
           },
           {
             "unique_name": "definition_activity_01GZ8U4R6533X3CAeJH39zViJ5tl9PJ6fHz",
-            "name": "Inspect observables with Treat Response",
-            "title": "Inspect observables with Treat Response",
+            "name": "Inspect observables with Threat Response",
+            "title": "Inspect observables with Threat Response",
             "type": "workflow.atomic_workflow",
             "base_type": "subworkflow",
             "properties": {
               "continue_on_failure": false,
               "description": "Convert unformatted text from ACSC Advirosy list into formatted list of observables",
-              "display_name": "Inspect observables with Treat Response",
+              "display_name": "Inspect observables with Threat Response",
               "input": {
                 "variable_workflow_01C9F46FN86EW70gxvx7jTcwKMObdpaAPck": "$activity.definition_activity_01GXROGRSVNW32rY1L392vgCVKJdJjJP2mb.output.script_queries.newtext$",
                 "variable_workflow_01C9F4PDGN5725qpK8sofdFmV1hrTAcYaGb": "$activity.definition_activity_01H5N6CXBK8KL3HPGjuxUliHh2KSV5PZVCG.output.variable_workflow_01BNOOXA3G6MV1PGAvsfZOKDdMYcE6XS726$"
@@ -1282,7 +1282,7 @@
   "atomic_workflows": [
     "definition_workflow_01FGYY44YU521254ygN3Le0In0kEHpiPNpf",
     "definition_workflow_01779LB6MV0P02kvka9TGV5cEam84NrCTy4",
-    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r",
-    "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS"
+    "definition_workflow_01C9F1VJ1I5KH26f860hJC5zDSD33548bYS",
+    "definition_workflow_01DS6ELBOO8YR3uFJZju566LqiqR18VlE6r"
   ]
 }
