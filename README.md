@@ -2,7 +2,7 @@
 
 Full description of this project is covered in this [blog post](https://blogs.cisco.com/security/unleashing-securex).
 
-[Setup Instructions](acsc_workflow.md)
+[Workflow Setup Instructions](acsc_workflow.md)
 
 
 # ios-xe-packet-capture
