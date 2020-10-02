@@ -63,7 +63,7 @@ After you have set up your Email target, configure the following Email Account K
 
 SXO workflow is represented by the file in JSON format, that contains definitions and description of all the activities, targets, variables and atomic workflows that are in use.
 
-The workflow json file is located in this repository's `acsc-advisory-workflow` folder. You can either clone repository to your workstation using `git clone` command or simply copy and past the content of it into the workflow import dialog box.
+The workflow json file is located in this repository's `acsc-advisory-workflow` folder. You can either clone repository to your workstation using `git clone` command or simply copy and paste the content of it into the workflow import dialog box.
 
 1. In SXO, go to My Workflows -> Import -> Browse. You will be presented with the dialog box.
 
