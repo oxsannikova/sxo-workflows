@@ -113,7 +113,7 @@ As the workflow progresses, you should see activities turning green. Don't be al
 
 5. Once execution is complete, examine the Webex Teams Room and Email Inbox for notifications and check if Threat Response Casebook has been created/updated in SecureX Ribbon.
 
-> You can return to previous runs information by clicking `VIEW RUNS` inside the workflow or going to 
+> You can return to previous runs information by clicking `VIEW RUNS` inside the workflow or going to __Runs__ in the left hand-side menu. 
 
 ## Next Steps
 
