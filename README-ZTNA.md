@@ -14,7 +14,7 @@ Targets: ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2
   * Fetch blocked domains for the identity provided
   * Format the results for ServiceNow
 * Create approval request to block the user
-*  Create a Webex Message with the list to approve the action
+* Create a Webex Message with the list to approve the action
   * If action approved, block the user in Duo
 * Create a ServiceNow incident ticket
 * Post message to Webex
