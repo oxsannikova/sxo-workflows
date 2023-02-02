@@ -41,4 +41,10 @@ This workflow searches and returns the top 10 identities in Cisco Umbrella with 
 | ServiceNow User ID | provide user id here |
 | Webex Teams Room ID | XXXXXX |
 
+## Credits and references
 
+This workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041
+
+## Notes
+
+Please test this properly before implementing in a production environment. This is a sample workflow!
