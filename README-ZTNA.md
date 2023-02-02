@@ -2,7 +2,7 @@
 
 This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.
 
-Targets: ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2
+**Targets:** ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2
 
 **Steps:**
 * Get a token for the Umbrella API
