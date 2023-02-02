@@ -9,14 +9,55 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "XXXX.service-now.com",
+          "value": "XXXX",
           "scope": "local",
-          "name": "ServiceNow Instance URL",
+          "name": "Duo Integration Key",
           "type": "datatype.string",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_023AU4326Z4F05tllVeso1gJpW0JXtJKQnK",
+        "unique_name": "variable_workflow_023AU4326YXF73bHGpKFAgIQtrsmeXrFjZY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "provide user id here",
+          "scope": "local",
+          "name": "ServiceNow User ID",
+          "type": "datatype.string",
+          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326ZBZV4WkYMAX2YPTgLqyYSd2oQe",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "XXXX.duosecurity.com",
+          "scope": "local",
+          "name": "Duo Hostname",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326ZJ2U20j11HMHnJOJN8c1Q7QSBI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Incident Information",
+          "type": "datatype.string",
+          "description": "Placeholder used to compile incident information. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR",
         "object_type": "variable_workflow"
       },
       {
@@ -48,55 +89,14 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "XXXX",
+          "value": "XXXX.service-now.com",
           "scope": "local",
-          "name": "Duo Integration Key",
+          "name": "ServiceNow Instance URL",
           "type": "datatype.string",
           "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_023AU4326YXF73bHGpKFAgIQtrsmeXrFjZY",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "Incident Information",
-          "type": "datatype.string",
-          "description": "Placeholder used to compile incident information. This will be populated automatically",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "XXXX.duosecurity.com",
-          "scope": "local",
-          "name": "Duo Hostname",
-          "type": "datatype.string",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_023AU4326ZJ2U20j11HMHnJOJN8c1Q7QSBI",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "provide user id here",
-          "scope": "local",
-          "name": "ServiceNow User ID",
-          "type": "datatype.string",
-          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
-          "is_required": false,
-          "is_invisible": false
-        },
-        "unique_name": "variable_workflow_023AU4326ZBZV4WkYMAX2YPTgLqyYSd2oQe",
+        "unique_name": "variable_workflow_023AU4326Z4F05tllVeso1gJpW0JXtJKQnK",
         "object_type": "variable_workflow"
       }
     ],
@@ -105,7 +105,7 @@
         "is_atomic": false
       },
       "delete_workflow_instance": false,
-      "description": "This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.\n\nTargets: ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2\n\nSteps:\n[] Get a token for the Umbrella API\n[] Fetch a list of identities with blocked DNS activity\n[] Check if the request was successful (if not, end the workflow)\n[] Extract the result count and check if there were any results (if not, end the workflow)\n[] Convert the top blocked identities to a table\n[] For each identity:\n[]> Fetch blocked domains for the identity provided\n[]> Format the results for ServiceNow\n[] Create a ServiceNow incident ticket\n\n\nThis workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041",
+      "description": "This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.\n\nTargets: ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2, Duo Security\n\nSteps:\n[] Get a token for the Umbrella API\n[] Fetch a list of identities with blocked DNS activity\n[] Check if the request was successful (if not, end the workflow)\n[] Extract the result count and check if there were any results (if not, end the workflow)\n[] Convert the top blocked identities to a table\n[] For each identity:\n[]> Fetch blocked domains for the identity provided\n[]> Format the results for ServiceNow\n[] Create a ServiceNow incident ticket\n\n\nThis workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041",
       "display_name": "Applying user ZT policies to Umbrella top blocked identity",
       "runtime_user": {
         "target_default": true
@@ -837,6 +837,41 @@
     "categories": [
       "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
     ]
+  },
+  "triggers": {
+    "triggerschedule_023AV42S0RC6B2kwIYryuslIatl3dV4mJ1b": {
+      "workflow_id": "definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO",
+      "name": "Weekly Trigger",
+      "title": "",
+      "lowercase_name": "schedule.weekly_trigger",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_023AV41FAIRYW0knnICEemisou033EQ4z2t",
+      "version": "",
+      "disabled": true,
+      "unique_name": "triggerschedule_023AV42S0RC6B2kwIYryuslIatl3dV4mJ1b",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_023AV41FAIRYW0knnICEemisou033EQ4z2t": {
+      "unique_name": "schedule_023AV41FAIRYW0knnICEemisou033EQ4z2t",
+      "name": "Weekly",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMfZOtVKaTB6BaLDrNQK52Fc",
+        "timezone": "Etc/GMT+0",
+        "starttime": "01:00",
+        "interval_hours": 0,
+        "interval_minutes": 0,
+        "number_of_times": 1,
+        "display_name": "Weekly",
+        "description": ""
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
   },
   "target_groups": {
     "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
