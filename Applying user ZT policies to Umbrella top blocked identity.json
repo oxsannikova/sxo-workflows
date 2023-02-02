@@ -1,0 +1,894 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO",
+    "name": "Applying user ZT policies to Umbrella top blocked identity",
+    "title": "Applying user ZT policies to Umbrella top blocked identity",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "XXXX.service-now.com",
+          "scope": "local",
+          "name": "ServiceNow Instance URL",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326Z4F05tllVeso1gJpW0JXtJKQnK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "XXXXXX",
+          "scope": "local",
+          "name": "Webex Teams Room ID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326YCAU7enGsxj2jFMCfz5tm0cBjF",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "Duo Secret Key",
+          "type": "datatype.secure_string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326YQOS7Tbpfa7GtHTtOy18LCXgXO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "XXXX",
+          "scope": "local",
+          "name": "Duo Integration Key",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326YXF73bHGpKFAgIQtrsmeXrFjZY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Incident Information",
+          "type": "datatype.string",
+          "description": "Placeholder used to compile incident information. This will be populated automatically",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "XXXX.duosecurity.com",
+          "scope": "local",
+          "name": "Duo Hostname",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326ZJ2U20j11HMHnJOJN8c1Q7QSBI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "provide user id here",
+          "scope": "local",
+          "name": "ServiceNow User ID",
+          "type": "datatype.string",
+          "description": "The username of the user you're using to open incident tickets. This can either match the username in your ServiceNow account key or, if the account has the appropriate permissions, can be a different user",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_023AU4326ZBZV4WkYMAX2YPTgLqyYSd2oQe",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.\n\nTargets: ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2\n\nSteps:\n[] Get a token for the Umbrella API\n[] Fetch a list of identities with blocked DNS activity\n[] Check if the request was successful (if not, end the workflow)\n[] Extract the result count and check if there were any results (if not, end the workflow)\n[] Convert the top blocked identities to a table\n[] For each identity:\n[]> Fetch blocked domains for the identity provided\n[]> Format the results for ServiceNow\n[] Create a ServiceNow incident ticket\n\n\nThis workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041",
+      "display_name": "Applying user ZT policies to Umbrella top blocked identity",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+          "run_on_all_targets": false,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ],
+          "use_criteria": {
+            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+            "conditions": [
+              {
+                "operator": "eqi",
+                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                "right_operand": "Umbrella API v2"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_023AU438R598Z04ouQ97H3Ub0ZW5X7G662Z",
+        "name": "Umbrella - Get Token",
+        "title": "Umbrella - Get Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Umbrella - Get Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eq",
+                    "right_operand": "Umbrella API v2 OAuth2"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_0204GWQHPXIXZ3GOjMdVOzF9cezREUY0hX6",
+          "workflow_name": "Umbrella - Get Token"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU43ASIPF903kW8quCvkS8P6G6IcJyjk",
+        "name": "Umbrella - Reporting v2 - Get Token",
+        "title": "Umbrella - Reporting v2 - Get Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Umbrella - Reporting v2 - Get Token",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": true,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eq",
+                    "right_operand": "Umbrella OAuth"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+          "workflow_name": "Umbrella - Reporting v2 - Get Token"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp",
+        "name": "HTTP Request",
+        "title": "Get top 10 blocked identities",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "allow_headers_redirect": false,
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $activity.definition_activity_023AU438R598Z04ouQ97H3Ub0ZW5X7G662Z.output.variable_workflow_0204GWQI4N5MD0Huemm22PAqecLmG6flBMg$"
+            }
+          ],
+          "display_name": "Get top 10 blocked identities",
+          "method": "GET",
+          "relative_url": "/reports/v2/top-identities/dns?from=-7days&to=now&offset=0&limit=10&verdict=blocked",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target_group": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU43DQ1D261WPQC955I1tK1eTWZvEtBr",
+        "name": "Condition Block",
+        "title": "Was the request successful?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Was the request successful?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_023AU43EZAXAT5CQ6AjrpOXdMLJkYx84kSv",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp.output.status_code$",
+                "operator": "ne",
+                "right_operand": 200
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_023AU43G3R0WK7L5iplEwnVrNq3GKxKRMwD",
+                "name": "Completed",
+                "title": "Failed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Failed",
+                  "result_message": "Failed to fetch top identities from Umbrella\n\nStatus code: $activity.definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp.output.status_code$\nResponse body: $activity.definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_023AU43GXCVJN3A4m5fiqjko9gBDIdFBVHj",
+        "name": "JSONPath Query",
+        "title": "Extract result count",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Extract result count",
+          "input_json": "$activity.definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data.size()",
+              "jsonpath_query_name": "resultCount",
+              "jsonpath_query_type": "integer"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU43I0VMCP3bgl9hHR2jwk439lGaC9Uk",
+        "name": "Condition Block",
+        "title": "Were there any identities with blocked connections?",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Were there any identities with blocked connections?",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_023AU43J0KYDV4SDxwuPDb5YsrIPBEfxGD3",
+            "name": "Condition Branch",
+            "title": "No",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_023AU43GXCVJN3A4m5fiqjko9gBDIdFBVHj.output.jsonpath_queries.resultCount$",
+                "operator": "eq",
+                "right_operand": 0
+              },
+              "continue_on_failure": false,
+              "display_name": "No",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_023AU43K3E3V02uzaKxlaoIOINRzLU44iyv",
+                "name": "Completed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "continue_on_failure": false,
+                  "display_name": "Completed",
+                  "result_message": "There were no identities with blocked DNS connections found in Umbrella",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_023AU43L7W0NK0Hwu71uxPYLoCVcnwYrl0M",
+        "name": "Read Table from JSON",
+        "title": "Convert top blocked identities to table",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Convert top blocked identities to table",
+          "input_json": "$activity.definition_activity_023AU43C77P8Y6YNEPtIUZwsWTwKUYkNcGp.output.response_body$",
+          "jsonpath_query": "$.data[*].identity",
+          "persist_output": true,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "id",
+              "column_type": "string"
+            },
+            {
+              "column_name": "label",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84",
+        "name": "For Each",
+        "title": "For each identity",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For each identity",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_023AU43L7W0NK0Hwu71uxPYLoCVcnwYrl0M.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_023AU43OXDBWS1W6whhN2JSgbD8m0GICTVK",
+            "name": "HTTP Request",
+            "title": "Get top 10 blocked domains",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "allow_headers_redirect": false,
+              "continue_on_error_status_code": true,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $activity.definition_activity_023AU438R598Z04ouQ97H3Ub0ZW5X7G662Z.output.variable_workflow_0204GWQI4N5MD0Huemm22PAqecLmG6flBMg$"
+                }
+              ],
+              "display_name": "Get top 10 blocked domains",
+              "method": "GET",
+              "relative_url": "/top-destinations/dns?from=-7days&to=now&offset=0&limit=10&verdict=blocked&identityids=$activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].id$",
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target_group": true
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_023AU43Q97GC92BggxdGI0Tg63c9w38qFfx",
+            "name": "Condition Block",
+            "title": "Was the request successful?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the request successful?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_023AU43R9WOJ768TgA94SWc8k11rMYsWWn2",
+                "name": "Condition Branch",
+                "title": "No",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_023AU43OXDBWS1W6whhN2JSgbD8m0GICTVK.output.status_code$",
+                    "operator": "ne",
+                    "right_operand": 200
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "No",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_023AU43SR1CG86qi3tUljwIFWwhl9QfmB3M",
+                    "name": "Continue",
+                    "title": "Skip this record",
+                    "type": "logic.continue",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Skip this record",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_023AU43TZD94C6NBzTvPQNhoAVSC5GN6U4H",
+            "name": "Execute Python Script",
+            "title": "Format data for ServiceNow",
+            "type": "python3.script",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Format data for ServiceNow",
+              "script": "import sys,json\nblockedDomains = json.loads(sys.argv[1])\ntextOut = \"<table style=\\\"border: 1px solid #000;\\\"><tr><td><u>Domain</u></td><td><u>Request Count</u></td></tr>\"\nfor domain in blockedDomains[\"data\"]:\n\ttextOut += \"<tr><td>\" + domain[\"domain\"] + \"</td><td>\" + str(domain[\"count\"]) + \"</td></tr>\"\ntextOut += \"</table>\"",
+              "script_arguments": [
+                "$activity.definition_activity_023AU43OXDBWS1W6whhN2JSgbD8m0GICTVK.output.response_body$"
+              ],
+              "script_queries": [
+                {
+                  "script_query": "textOut",
+                  "script_query_name": "textOut",
+                  "script_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_023AU43VIQ3ER4cuScoAx5QK2ZXsq9EvzxB",
+            "name": "Create Approval Request",
+            "title": "Create Approval Request",
+            "type": "task.approval_request",
+            "base_type": "activity",
+            "properties": {
+              "approval_choices": [
+                "Approve",
+                "Reject"
+              ],
+              "assignees": [
+                "osanniko+dnesec2@cisco.com"
+              ],
+              "continue_on_failure": false,
+              "display_name": "Create Approval Request",
+              "due_date": {
+                "is_relative_time": true,
+                "relative_time": {
+                  "duration": 2,
+                  "time_units": "hours"
+                },
+                "set_due_date": true
+              },
+              "expiration_date": {
+                "is_relative_time": true,
+                "relative_time": {
+                  "duration": 2,
+                  "time_units": "hours"
+                }
+              },
+              "expiration_status": "Expired",
+              "minimum_approvals": 1,
+              "priority": "high",
+              "skip_execution": false,
+              "subject_line": "Request to disable user $activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$",
+              "task_message": "Approve DUO Security service disable for user $activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$",
+              "task_owner": "osanniko+dnesec2@cisco.com",
+              "task_requestor": "osanniko+dnesec2@cisco.com"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_023AU43XOK1FU6rMn7kR7FyywgqGM3zOApu",
+            "name": "Webex - Post Message to Room",
+            "title": "Webex - Post Message to Room",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Webex - Post Message to Room",
+              "input": {
+                "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YCAU7enGsxj2jFMCfz5tm0cBjF$",
+                "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$global.variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d.global.variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d$",
+                "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "User $activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$ is identified as Umbrella DNS Top Blocked identity.\n[Click here](https://securex-ao.us.security.cisco.com/orch-ui/tasks/$activity.definition_activity_023AU43VIQ3ER4cuScoAx5QK2ZXsq9EvzxB.output.task_id$) to approve automated remidiation.",
+                "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+                "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target_group_criteria": true,
+                "target_group": {
+                  "run_on_all_targets": false,
+                  "use_criteria": {
+                    "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                    "conditions": [
+                      {
+                        "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                        "operator": "eq",
+                        "right_operand": "Webex Teams"
+                      }
+                    ]
+                  }
+                }
+              },
+              "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+              "workflow_name": "Webex - Post Message to Room"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_023AU440CL9HX6wHtjPTwcBSbywlWcKPBO4",
+            "name": "Wait For Event",
+            "title": "Wait For Event",
+            "type": "task.wait_for_event",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Wait For Event",
+              "event_info": {
+                "add_event": true,
+                "event_definition": {
+                  "conditions": {
+                    "left_operand": "$output.task_id$",
+                    "operator": "eq",
+                    "right_operand": "$activity.definition_activity_023AU43VIQ3ER4cuScoAx5QK2ZXsq9EvzxB.output.task_id$"
+                  }
+                }
+              },
+              "event_timeout": 2580000,
+              "event_type": "approval_task.event",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_023AU441HBANV2Mvxt4fftrOpbfLV1rddn5",
+            "name": "Condition Block",
+            "title": "Was the request approved?",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Was the request approved?",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_023AU442IWZ4B7NHmB5LJ71ZIi249YR9xq2",
+                "name": "Condition Branch",
+                "title": "Yes",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_023AU440CL9HX6wHtjPTwcBSbywlWcKPBO4.output.response$",
+                    "operator": "eq",
+                    "right_operand": "Approve"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Yes",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_023AU444OAPFJ0Z3XaSP0UPCivadBNqGGBZ",
+                    "name": "Duo - Admin - Get User",
+                    "title": "Duo - Admin - Get User",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Duo - Admin - Get User",
+                      "input": {
+                        "variable_workflow_01PP784U1V8FT1Cdr6lEXfiHwwbn6bsDUKT": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YXF73bHGpKFAgIQtrsmeXrFjZY$",
+                        "variable_workflow_01PP784U1V9TF27PYoY723j3qbJl7QRQOjK": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YQOS7Tbpfa7GtHTtOy18LCXgXO$",
+                        "variable_workflow_01PP784U1VCAA7c2VqwZKgU3scR51thmTMM": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326ZJ2U20j11HMHnJOJN8c1Q7QSBI$",
+                        "variable_workflow_01PP784U1VDEE2cwX8GdChEsHknyHsgt6nw": "$activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$",
+                        "variable_workflow_01PP784U1VKO54wsLOPdERFQVYlMNFplLH1": "",
+                        "variable_workflow_01WGOVFD2R9IV3WHmt3FQv1oNBGz0UvRmxp": 100,
+                        "variable_workflow_01WGOVHPQYSDL02afSLQrZUEozvSAsaesyt": 0
+                      },
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                            "conditions": [
+                              {
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "operator": "eq",
+                                "right_operand": "DUO Security"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "workflow_id": "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+                      "workflow_name": "Duo - Admin - Get User"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_023AU4477Q6EC4kf5j8mkVWmVnLL1BQDY9j",
+                    "name": "Duo Admin - Block User By UserID",
+                    "title": "Duo Admin - Block User By UserID",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Duo Admin - Block User By UserID",
+                      "input": {
+                        "variable_workflow_01XJ7VLOQE5BI5oQcphWLndNpneRIdenb9k": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YXF73bHGpKFAgIQtrsmeXrFjZY$",
+                        "variable_workflow_01XJ7VLOQF5016zdhlALOV5xYqMAeTwNqzT": "$activity.definition_activity_023AU444OAPFJ0Z3XaSP0UPCivadBNqGGBZ.output.variable_workflow_01PP784U1VH0E0HZcDN2JkRNCFyAzdDower$",
+                        "variable_workflow_01XJ7VLOQG8Y93LGLJH11wcUJZozfUTtnVk": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326ZJ2U20j11HMHnJOJN8c1Q7QSBI$",
+                        "variable_workflow_01XJ7VLOQGYMR5TBhbIvA3UfK6lmGH1O801": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YQOS7Tbpfa7GtHTtOy18LCXgXO$"
+                      },
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target_group_criteria": true,
+                        "target_group": {
+                          "run_on_all_targets": false,
+                          "use_criteria": {
+                            "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                            "conditions": [
+                              {
+                                "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                                "operator": "eq",
+                                "right_operand": "DUO Security"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "workflow_id": "definition_workflow_01XJ7VLOCYQHB31OPB9bhEnUyiWY7AIprwG",
+                      "workflow_name": "Duo Admin - Block User By UserID"
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_023AU449TD5IY4UItscVPyok0bCBuql3Jie",
+            "name": "Set Variables",
+            "title": "Update ticket text",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Update ticket text",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR$",
+                  "variable_value_new": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR$\nUmbrella Top Blocked Identity: $activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$<br />\n$activity.definition_activity_023AU43TZD94C6NBzTvPQNhoAVSC5GN6U4H.output.script_queries.textOut$<br /><br />\nRequest to block access for DUO Security User $activity.definition_activity_023AU43N0K5WL3eMWJP1T3x0VFzYcShdi84.input.source_array[@].label$ was $activity.definition_activity_023AU440CL9HX6wHtjPTwcBSbywlWcKPBO4.output.response$ by $activity.definition_activity_023AU440CL9HX6wHtjPTwcBSbywlWcKPBO4.output.assignee_responses[0].assignee$.<br /><br />"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_023AU44CAE91C2YtVnOlZDZSxNyeOk3unN6",
+        "name": "ServiceNow - Create Incident",
+        "title": "ServiceNow - Create Incident",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "ServiceNow - Create Incident",
+          "input": {
+            "variable_workflow_01C0CK2MY2SLG1FXph6ZHp7iHmRw1KvUFlN": "Apply Zero Trust Policy to Umbrella DNS Top 10 Identities",
+            "variable_workflow_01FGYF0DUR8HV2TMpEKctsYjQR4mzjD5OTu": "This incident was created to report the top identities with blocked DNS requests within the past 7 days.",
+            "variable_workflow_01FGYGCZL5M2E1m1O5tvVVn0DVzVTLwytei": 3,
+            "variable_workflow_01FGYGPFJYM4L5aVpzNOhRwMmzKJDofqufe": 3,
+            "variable_workflow_01FGYGZ0OYYNM5pWjyyreMjNHDjusjNe8jx": "[code]$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YJKX6fogmox9ampvmXZUVJPVGR$[/code]",
+            "variable_workflow_01FGYI8HES41K63G3UzMinBH3iApm37fBGt": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326ZBZV4WkYMAX2YPTgLqyYSd2oQe$",
+            "variable_workflow_01FMQD0HIJIDU5kce0VNx4HQiMYjMfUvBlj": "v2"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eqi",
+                    "right_operand": "ServiceNow"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW",
+          "workflow_name": "ServiceNow - Create Incident"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_023AU44EEXAN202YYG1KbycdRZSeZ4wPftU",
+        "name": "Webex - Post Message to Room",
+        "title": "Webex - Post Message to Room",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Webex - Post Message to Room",
+          "input": {
+            "variable_workflow_01PP78DJH1TI76BYfsu9g0Tqj2S6cUxjtu5": "$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326YCAU7enGsxj2jFMCfz5tm0cBjF$",
+            "variable_workflow_01PP78DJH1XNQ7gNQ5iZdperRHqrppzARXC": "$global.variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d.global.variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d$",
+            "variable_workflow_01PP78DJH1YWL3allalGQbg1VkgKwh9GvCi": "[Click Here](https://$workflow.definition_workflow_023AU431WNUVO6WiShA6h4lAwXyKOESp1qO.local.variable_workflow_023AU4326Z4F05tllVeso1gJpW0JXtJKQnK$/nav_to.do?uri=incident.do?sysparm_query=number=$activity.definition_activity_023AU44CAE91C2YtVnOlZDZSxNyeOk3unN6.output.variable_workflow_01C0EMLG2EEYD14wKqkFjhK8dTwJa20Jihp$) to view ServiceNow incident",
+            "variable_workflow_01PP78DJH22BB3Ej3I8tJ4OCQur0unYGjj9": "",
+            "variable_workflow_01SVERQNMKN8N6vqX2djMtAfshphGydGsH8": ""
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target_group_criteria": true,
+            "target_group": {
+              "run_on_all_targets": false,
+              "use_criteria": {
+                "choose_target_using_algorithm": "choose_first_with_matching_criteria",
+                "conditions": [
+                  {
+                    "left_operand": "$targetgroup.web-service endpoint.input.display_name$",
+                    "operator": "eq",
+                    "right_operand": "Webex Teams"
+                  }
+                ]
+              }
+            }
+          },
+          "workflow_id": "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+          "workflow_name": "Webex - Post Message to Room"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "target_groups": {
+    "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH": {
+      "unique_name": "target_group_01EJ0TQWPQWBD0qiWqClJKj9FOzwiZRfOFH",
+      "name": "Default TargetGroup",
+      "title": "Default TargetGroup",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        },
+        {
+          "data_target_type": "email.smtp_endpoint",
+          "view_target_type": "email.smtp_endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  },
+  "variables": {
+    "variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d": {
+      "unique_name": "variable_01XJ963RNQ0S12Dsi1BBmPPCWeCwEmTvT0d",
+      "properties": {
+        "value": "*****",
+        "scope": "global",
+        "name": "Webex Teams Bot Token",
+        "type": "datatype.secure_string",
+        "is_required": false,
+        "is_invisible": false
+      },
+      "object_type": "variable"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_0204GWQHPXIXZ3GOjMdVOzF9cezREUY0hX6",
+    "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+    "definition_workflow_01XJ7VLOCYQHB31OPB9bhEnUyiWY7AIprwG",
+    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_0204GWQHPXIXZ3GOjMdVOzF9cezREUY0hX6",
+    "definition_workflow_01PP75D6GJ0002MvUF1kmECjGTE8Ps6WiaC",
+    "definition_workflow_01PP78DJMXS415nTjonujf03ROkr6t2PNyw",
+    "definition_workflow_01PP784U9VGRC6ISP15eyRIQPnhZsDlJlJU",
+    "definition_workflow_01XJ7VLOCYQHB31OPB9bhEnUyiWY7AIprwG",
+    "definition_workflow_01C0BYD0GI1KZ0mxScCSxVrfX70zrUdqLlW"
+  ]
+}
