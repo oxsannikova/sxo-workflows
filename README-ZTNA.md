@@ -1,7 +1,7 @@
 # Applying user Zero Trust policies to Umbrella top blocked identity
 
 ## Features
-This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.
+This [workflow](https://github.com/oxsannikova/sxo-workflows/blob/master/sxo-ztna-duo-umbrella/Applying%20user%20ZT%20policies%20to%20Umbrella%20top%20blocked%20identity.json) searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.
 
 **Note:** This workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041
 
@@ -40,6 +40,15 @@ This workflow searches and returns the top 10 identities in Cisco Umbrella with 
 | ServiceNow Instance URL | XXXX.service-now.com |
 | ServiceNow User ID | provide user id here |
 | Webex Teams Room ID | XXXXXX |
+
+### Import the workflow
+
+1. In the left pane menu, select **Workflows**. Click on **IMPORT** to import the workflow.
+
+2. Click on **Browse** and copy paste the content of the [Applying user ZT policies to Umbrella top blocked identity](https://github.com/oxsannikova/sxo-workflows/blob/master/sxo-ztna-duo-umbrella/Applying%20user%20ZT%20policies%20to%20Umbrella%20top%20blocked%20identity.json) file inside of the text window.  Select **IMPORT AS A NEW WORKFLOW (CLONE)** and click on **IMPORT**.
+
+3. Go to **My Workflows** and open the workflow **Applying user ZT policies to Umbrella top blocked identity** and validate it. In the properties on the right hand-side, find section **Triggers**. You will see that the status is **Disabled**. Click on the name of the Trigger and change the status to **Enabled**.
+
 
 ## Credits and references
 
