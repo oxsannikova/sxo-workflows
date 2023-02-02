@@ -1,10 +1,12 @@
 # Applying user Zero Trust policies to Umbrella top blocked identity
 
+## Features
 This workflow searches and returns the top 10 identities in Cisco Umbrella with DNS activity blocks for the last 7 days. The data is then parsed and posted in a ServiceNow incident.
 
-**Targets:** ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2
+**Note:** This workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041
 
-**Steps:**
+## Steps
+
 * Get a token for the Umbrella API
 * Fetch a list of identities with blocked DNS activity
 * Check if the request was successful (if not, end the workflow)
@@ -19,4 +21,24 @@ This workflow searches and returns the top 10 identities in Cisco Umbrella with 
 * Create a ServiceNow incident ticket
 * Post message to Webex
 
-**Note:** This workflow is base on the workflow #0041 with added response actions: https://ciscosecurity.github.io/sxo-05-security-workflows/workflows/0041
+## Configuration
+
+### Required Targets and Target Groups
+**Targets:** ServiceNow, Umbrella API v2 OAuth2, Umbrella API v2, DUO Security
+
+### Required Account Keys
+**Accounte Keys**: Umbrella v2
+
+### Required Local Variables
+* Update the following local varilables in order to properly authenticate to respective tools.
+ 
+| Variable Name | Value|
+|---|:---:|
+| Duo Hostname | XXXX.duosecurity.com |
+| Duo Integration Key | XXXX |
+| Duo Secret Key | ****** |
+| ServiceNow Instance URL | XXXX.service-now.com |
+| ServiceNow User ID | provide user id here |
+| Webex Teams Room ID | XXXXXX |
+
+
